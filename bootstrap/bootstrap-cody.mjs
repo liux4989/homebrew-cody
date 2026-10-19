@@ -45,8 +45,8 @@ try {
     const {tag} = await response.json();
     if (!/^v\d+\.\d+\.\d+$/.test(tag ?? '')) fail('Release authority returned no valid release tag.');
     const metadata = JSON.parse(run('gh', ['api', `repos/${repository}/releases/tags/${tag}`, '--hostname', 'github.com']));
-    if (metadata.tag_name !== tag || metadata.draft || metadata.prerelease || metadata.immutable !== true)
-      fail(`Release ${tag} is not a verified immutable production publication.`);
+    if (metadata.tag_name !== tag || metadata.draft || metadata.prerelease)
+      fail(`Release ${tag} is not a published production release.`);
     const names = metadata.assets.map(asset => asset.name);
     if (new Set(names).size !== names.length || names.some(name => !/^[\w.-]+$/.test(name)))
       fail('Invalid or duplicate publication asset names.');

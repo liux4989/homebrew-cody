@@ -27,8 +27,10 @@ in automatically, and Homebrew installation does not configure a native host.
 
 A bootstrap version identifies only installer code. It cannot select or authorize
 a Cody runtime. The bootstrap reads the deployed API's release tag, verifies the
-exact immutable GitHub publication and invokes its official reader. That reader
-verifies release authority and provenance before activating the runtime.
+exact published production GitHub release and invokes its official reader. That reader
+verifies release authority and provenance before activating the runtime. Published
+tags and assets rely on repository administrators to preserve them; GitHub release
+immutability is not required.
 
 Use `cody upgrade` for runtime updates; `brew upgrade` updates only the bootstrap.
 Uninstalling the formula leaves the separately managed runtime and saved sessions

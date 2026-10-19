@@ -2,9 +2,9 @@ class Cody < Formula
   desc "Bootstrap the API-authorized Cody runtime and native host integrations"
   homepage "https://github.com/liux4989/homebrew-cody"
   # This version identifies only the bootstrap, never an authorized Cody runtime.
-  url "https://github.com/liux4989/homebrew-cody/releases/download/bootstrap-v1.0.0/cody-bootstrap-1.0.0.tar.gz"
-  version "1.0.0"
-  sha256 "a874a4693747b8ec970d367a6f6e555ddf9d1d6310d14842b9bc9d5b7980f4ea"
+  url "https://github.com/liux4989/homebrew-cody/releases/download/bootstrap-v1.0.1/cody-bootstrap-1.0.1.tar.gz"
+  version "1.0.1"
+  sha256 "438ca601b24c6ed0f39853a67f9c38f24e31f0f6eff66641b73ebf229c1bab92"
 
   depends_on :macos
   depends_on "node@22"
