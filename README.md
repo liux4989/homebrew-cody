@@ -21,6 +21,18 @@ gh auth setup-git --hostname github.com
 
 Retry installation after confirming repository access.
 
+If the sandboxed source clone fails with `terminal prompts disabled`, pass the
+existing GitHub token for this command only:
+
+```sh
+HOMEBREW_GITHUB_API_TOKEN="$(gh auth token --hostname github.com)" \
+  brew install --HEAD liux4989/cody/cody
+```
+
+Do not enable shell tracing (`set -x`) or paste the token itself. This does not
+save credentials to a file or change Git configuration. The Homebrew download
+sandbox may not be able to use normal keychain-backed Git credentials.
+
 `--HEAD` installs only the bootstrap from the Cody source repository. It never
 selects a development runtime. The bootstrap installs only the immutable
 publication selected by the deployed Cody API. Use `cody upgrade` for runtime
