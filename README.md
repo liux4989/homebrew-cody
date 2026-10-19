@@ -1,44 +1,48 @@
 # Cody Homebrew tap
 
-Install the Cody bootstrap on macOS. This tap and the Cody source repository
-are private; your GitHub account needs read access to both.
+Install the Cody bootstrap on macOS:
 
 ```sh
-brew install --HEAD liux4989/cody/cody
+brew install liux4989/cody/cody
 cody upgrade
 ```
 
 For Pi, use `cody upgrade --configure pi`, then reload Pi.
 
-Homebrew installs Node 22 and GitHub CLI dependencies. It does not sign in for
-you or change your default Node. If cloning this private tap fails, install
-GitHub CLI with `brew install gh`, then run:
+The tap and pinned bootstrap archive are public. Installing them does not require
+GitHub credentials or access to the private Cody source repository. Homebrew
+installs Node 22 and GitHub CLI dependencies without changing your default Node.
+
+The runtime and its publication remain private. Before the first runtime
+installation, `cody upgrade` checks GitHub access. If necessary, run:
 
 ```sh
 gh auth login --hostname github.com
-gh auth setup-git --hostname github.com
 ```
 
-Retry installation after confirming repository access.
+Your account must have read access to `liux4989/cody`. The bootstrap never signs
+in automatically, and Homebrew installation does not configure a native host.
 
-If the sandboxed source clone fails with `terminal prompts disabled`, pass the
-existing GitHub token for this command only:
+## Runtime authority
 
-```sh
-HOMEBREW_GITHUB_API_TOKEN="$(gh auth token --hostname github.com)" \
-  brew install --HEAD liux4989/cody/cody
-```
+A bootstrap version identifies only installer code. It cannot select or authorize
+a Cody runtime. The bootstrap reads the deployed API's release tag, verifies the
+exact immutable GitHub publication and invokes its official reader. That reader
+verifies release authority and provenance before activating the runtime.
 
-Do not enable shell tracing (`set -x`) or paste the token itself. This does not
-save credentials to a file or change Git configuration. The Homebrew download
-sandbox may not be able to use normal keychain-backed Git credentials.
+Use `cody upgrade` for runtime updates; `brew upgrade` updates only the bootstrap.
+Uninstalling the formula leaves the separately managed runtime and saved sessions
+intact.
 
-`--HEAD` installs only the bootstrap from the Cody source repository. It never
-selects a development runtime. The bootstrap installs only the immutable
-publication selected by the deployed Cody API. Use `cody upgrade` for runtime
-updates; `brew upgrade` updates only the bootstrap. Uninstalling the formula
-leaves the separately managed runtime and saved sessions intact.
+## Bootstrap maintenance
 
-The formula is maintained here. Bootstrap source and installation behavior are
-maintained in [liux4989/cody](https://github.com/liux4989/cody), under
-`scripts/bootstrap-cody.mjs` and `docs/implementation/cli.md`.
+Public bootstrap source is in `bootstrap/bootstrap-cody.mjs`. It is copied from
+`scripts/bootstrap-cody.mjs` in the Cody product repository. Keep both copies
+aligned when changing bootstrap behavior. Do not copy runtime code, credentials
+or private release assets into this repository.
+
+Publish bootstrap changes under a new immutable `bootstrap-vMAJOR.MINOR.PATCH`
+tag and attach a tar archive containing only `bootstrap-cody.mjs`. Update the
+formula's URL, version and SHA-256 to those exact published bytes. Never replace
+an existing archive. Bootstrap publication is separate from Cody runtime releases
+and does not request or authorize an API deployment.

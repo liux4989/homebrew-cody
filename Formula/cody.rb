@@ -1,16 +1,17 @@
 class Cody < Formula
   desc "Bootstrap the API-authorized Cody runtime and native host integrations"
-  homepage "https://github.com/liux4989/cody"
-  # HEAD distributes the installer only, never a runtime selected from main.
-  # No release archive may be selected by Homebrew's version/cache mechanism.
-  head "https://github.com/liux4989/cody.git", branch: "main"
+  homepage "https://github.com/liux4989/homebrew-cody"
+  # This version identifies only the bootstrap, never an authorized Cody runtime.
+  url "https://github.com/liux4989/homebrew-cody/releases/download/bootstrap-v1.0.0/cody-bootstrap-1.0.0.tar.gz"
+  version "1.0.0"
+  sha256 "a874a4693747b8ec970d367a6f6e555ddf9d1d6310d14842b9bc9d5b7980f4ea"
 
   depends_on :macos
   depends_on "node@22"
   depends_on "gh"
 
   def install
-    libexec.install "scripts/bootstrap-cody.mjs"
+    libexec.install "bootstrap-cody.mjs"
     (bin/"cody").write <<~SH
       #!/bin/sh
       # Keep Homebrew's keg-only Node private to Cody, not the user's default.
